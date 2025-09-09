@@ -1,0 +1,32 @@
+<formats>
+	<format name="A4" minWidth="566.929" maxWidth="623.622" minHeight="813.543" maxHeight="870.236" media="sheet" use="true" description=""/>
+	<format name="A3" minWidth="813.543" maxWidth="870.236" minHeight="1162.205" maxHeight="1218.898" media="sheet" use="true" description=""/>
+	<format name="A2" minWidth="1162.205" maxWidth="1218.898" minHeight="1655.433" maxHeight="1712.126" media="roll" use="true" description=""/>
+	<format name="A1" minWidth="1655.433" maxWidth="1712.126" minHeight="2355.591" maxHeight="2412.283" media="roll" use="true" description=""/>
+	<format name="A0" minWidth="2355.591" maxWidth="2412.283" minHeight="3342.047" maxHeight="3398.74" media="roll" use="true" description=""/>
+	<format name="A4x3" minWidth="813.543" maxWidth="870.236" minHeight="1757.48" maxHeight="1814.173" media="roll" use="true" description=""/>
+	<format name="A4x4" minWidth="813.543" maxWidth="870.236" minHeight="2355.591" maxHeight="2412.283" media="roll" use="true" description=""/>
+	<format name="A4x5" minWidth="813.543" maxWidth="870.236" minHeight="2950.866" maxHeight="3007.559" media="roll" use="true" description=""/>
+	<format name="A4x6" minWidth="813.543" maxWidth="870.236" minHeight="3546.142" maxHeight="3602.835" media="roll" use="true" description=""/>
+	<format name="A4x7" minWidth="813.543" maxWidth="870.236" minHeight="4141.417" maxHeight="4198.11" media="roll" use="true" description=""/>
+	<format name="A4x8" minWidth="813.543" maxWidth="870.236" minHeight="4739.528" maxHeight="4796.22" media="roll" use="true" description=""/>
+	<format name="A4x9" minWidth="813.543" maxWidth="870.236" minHeight="5334.803" maxHeight="5391.496" media="roll" use="true" description=""/>
+	<format name="A3x3" minWidth="1162.205" maxWidth="1218.898" minHeight="2497.323" maxHeight="2554.016" media="roll" use="true" description=""/>
+	<format name="A3x4" minWidth="1162.205" maxWidth="1218.898" minHeight="3342.047" maxHeight="3398.74" media="roll" use="true" description=""/>
+	<format name="A3x5" minWidth="1162.205" maxWidth="1218.898" minHeight="4183.937" maxHeight="4240.63" media="roll" use="true" description=""/>
+	<format name="A3x6" minWidth="1162.205" maxWidth="1218.898" minHeight="5025.827" maxHeight="5082.52" media="roll" use="true" description=""/>
+	<format name="A3x7" minWidth="1162.205" maxWidth="1218.898" minHeight="5867.717" maxHeight="5924.409" media="roll" use="true" description=""/>
+	<format name="A2x3" minWidth="1655.433" maxWidth="1712.126" minHeight="3546.142" maxHeight="3602.835" media="roll" use="true" description=""/>
+	<format name="A2x4" minWidth="1655.433" maxWidth="1712.126" minHeight="4739.528" maxHeight="4796.22" media="roll" use="true" description=""/>
+	<format name="A2x5" minWidth="1655.433" maxWidth="1712.126" minHeight="5930.079" maxHeight="5986.772" media="roll" use="true" description=""/>
+	<format name="A2x6" minWidth="1655.433" maxWidth="1712.126" minHeight="7114.961" maxHeight="7171.654" media="roll" use="true" description=""/>
+	<format name="A1x3" minWidth="2355.591" maxWidth="2412.283" minHeight="5025.827" maxHeight="5082.52" media="roll" use="true" description=""/>
+	<format name="A1x4" minWidth="2355.591" maxWidth="2412.283" minHeight="6712.441" maxHeight="6769.134" media="roll" use="true" description=""/>
+	<format name="A1x5" minWidth="2355.591" maxWidth="2412.283" minHeight="8399.055" maxHeight="8455.748" media="roll" use="true" description=""/>
+	<format name="A1x6" minWidth="2355.591" maxWidth="2412.283" minHeight="10085.669" maxHeight="10142.362" media="roll" use="true" description=""/>
+	<format name="A0x2" minWidth="3342.047" maxWidth="3398.74" minHeight="4739.528" maxHeight="4796.22" media="roll" use="true" description=""/>
+	<format name="A0x3" minWidth="3342.047" maxWidth="3398.74" minHeight="7123.465" maxHeight="7180.157" media="roll" use="true" description=""/>
+	<format name="A0x4" minWidth="3342.047" maxWidth="3398.74" minHeight="9496.063" maxHeight="9552.756" media="roll" use="true" description=""/>
+	<format name="A0x5" minWidth="3342.047" maxWidth="3398.74" minHeight="11877.165" maxHeight="11933.858" media="roll" use="true" description=""/>
+	<format name="A0x6" minWidth="3342.047" maxWidth="3398.74" minHeight="14258.268" maxHeight="14314.961" media="roll" use="true" description=""/>
+</formats>
