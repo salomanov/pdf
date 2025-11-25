@@ -1,529 +1,52 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Калькулятор стоимости печати PDF</title>
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        body {
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 20px;
-        }
-
-        .container {
-            max-width: 1000px;
-            width: 100%;
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-            margin: 20px 0;
-        }
-
-        header {
-            background: #2c3e50;
-            color: white;
-            padding: 25px;
-            text-align: center;
-            position: relative;
-        }
-
-        .settings-btn {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: rgba(255, 255, 255, 0.2);
-            border: none;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s;
-        }
-
-        .settings-btn:hover {
-            background: rgba(255, 255, 255, 0.3);
-            transform: rotate(30deg);
-        }
-
-        .settings-btn svg {
-            width: 24px;
-            height: 24px;
-            fill: white;
-        }
-
-        h1 {
-            font-size: 28px;
-            margin-bottom: 10px;
-        }
-
-        .description {
-            font-size: 16px;
-            opacity: 0.9;
-            max-width: 600px;
-            margin: 0 auto;
-            line-height: 1.5;
-        }
-
-        .upload-section {
-            padding: 30px;
-            text-align: center;
-            border-bottom: 1px solid #eee;
-        }
-
-        .drop-area {
-            border: 3px dashed #3498db;
-            border-radius: 12px;
-            padding: 40px 20px;
-            cursor: pointer;
-            transition: all 0.3s;
-            background: #f8f9fa;
-            margin: 20px 0;
-        }
-
-        .drop-area:hover {
-            background: #e8f4fc;
-            border-color: #2980b9;
-        }
-
-        .drop-area p {
-            font-size: 18px;
-            color: #7f8c8d;
-            margin-bottom: 15px;
-        }
-
-        .btn {
-            background: #3498db;
-            color: white;
-            border: none;
-            padding: 12px 25px;
-            border-radius: 50px;
-            cursor: pointer;
-            font-size: 16px;
-            font-weight: 600;
-            transition: all 0.3s;
-            display: inline-block;
-            margin: 10px 5px;
-        }
-
-        .btn:hover {
-            background: #2980b9;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        }
-
-        .btn-danger {
-            background: #e74c3c;
-        }
-
-        .btn-danger:hover {
-            background: #c0392b;
-        }
-
-        .hidden {
-            display: none;
-        }
-
-        .file-list {
-            margin: 15px 0;
-            max-height: 300px;
-            overflow-y: auto;
-            border: 1px solid #eee;
-            border-radius: 8px;
-            padding: 10px;
-        }
-
-        .file-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 12px;
-            border-bottom: 1px solid #f0f0f0;
-            transition: background-color 0.2s;
-        }
-
-        .file-item:hover {
-            background-color: #f9f9f9;
-        }
-
-        .file-item:last-child {
-            border-bottom: none;
-        }
-
-        .file-name {
-            flex: 1;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            padding-right: 15px;
-            font-size: 14px;
-        }
-
-        .file-cost {
-            font-weight: bold;
-            color: #27ae60;
-            min-width: 100px;
-            text-align: right;
-            font-size: 14px;
-        }
-
-        .remove-file {
-            background: none;
-            border: none;
-            color: #e74c3c;
-            cursor: pointer;
-            font-size: 18px;
-            padding: 5px;
-            width: 30px;
-            height: 30px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-left: 10px;
-        }
-
-        .files-total {
-            background: #27ae60;
-            color: white;
-            padding: 15px;
-            border-radius: 8px;
-            margin: 15px 0;
-            text-align: center;
-            font-weight: bold;
-            font-size: 18px;
-        }
-
-        .current-settings {
-            text-align: center;
-            margin-top: 10px;
-            font-size: 14px;
-            color: #7f8c8d;
-            padding: 10px;
-            background: #f8f9fa;
-            border-radius: 6px;
-        }
-
-        .clear-all-btn {
-            margin-top: 10px;
-            width: 100%;
-        }
-
-        .stats-section {
-            padding: 20px;
-            background: #f8f9fa;
-            border-radius: 10px;
-            margin: 20px 0;
-        }
-
-        .stats-section h3 {
-            text-align: center;
-            margin-bottom: 20px;
-            color: #2c3e50;
-        }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-        }
-
-        .stat-item {
-            background: white;
-            padding: 15px;
-            border-radius: 8px;
-            text-align: center;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-        }
-
-        .stat-value {
-            font-size: 24px;
-            font-weight: bold;
-            color: #2c3e50;
-            margin-bottom: 5px;
-        }
-
-        .stat-label {
-            font-size: 14px;
-            color: #7f8c8d;
-        }
-
-        .format-stats {
-            margin-top: 20px;
-        }
-
-        .format-stats h4 {
-            text-align: center;
-            margin-bottom: 15px;
-            color: #2c3e50;
-        }
-
-        .format-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 10px;
-        }
-
-        .format-item {
-            background: white;
-            padding: 12px;
-            border-radius: 6px;
-            text-align: center;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-        }
-
-        .format-name {
-            font-weight: bold;
-            color: #2c3e50;
-            margin-bottom: 5px;
-        }
-
-        .format-count {
-            color: #7f8c8d;
-            font-size: 14px;
-        }
-
-        .loading {
-            display: none;
-            text-align: center;
-            padding: 20px;
-        }
-
-        .spinner {
-            border: 4px solid #f3f3f3;
-            border-top: 4px solid #3498db;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 15px;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        .error-section {
-            background: #ffe6e6;
-            border: 1px solid #ffcccc;
-            border-radius: 8px;
-            padding: 15px;
-            margin: 15px 0;
-        }
-
-        .error-title {
-            color: #d9534f;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
-
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.5);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s;
-        }
-
-        .modal-overlay.active {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .modal {
-            background: white;
-            border-radius: 12px;
-            width: 90%;
-            max-width: 500px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            transform: translateY(-20px);
-            transition: transform 0.3s;
-        }
-
-        .modal-overlay.active .modal {
-            transform: translateY(0);
-        }
-
-        .modal-header {
-            padding: 20px;
-            border-bottom: 1px solid #eee;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .modal-header h2 {
-            margin: 0;
-            color: #2c3e50;
-        }
-
-        .close-btn {
-            background: none;
-            border: none;
-            font-size: 24px;
-            cursor: pointer;
-            color: #7f8c8d;
-        }
-
-        .modal-body {
-            padding: 20px;
-            max-height: 60vh;
-            overflow-y: auto;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: #2c3e50;
-        }
-
-        .form-group input {
-            width: 100%;
-            padding: 12px 15px;
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            font-size: 16px;
-        }
-
-        .form-group input:focus {
-            outline: none;
-            border-color: #3498db;
-            box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
-        }
-
-        .modal-footer {
-            padding: 15px 20px;
-            border-top: 1px solid #eee;
-            text-align: right;
-        }
-
-        .price-category {
-            background: #f8f9fa;
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            border-left: 4px solid #3498db;
-        }
-
-        .price-category h4 {
-            margin: 0 0 15px 0;
-            color: #2c3e50;
-            font-size: 16px;
-        }
-
-        footer {
-            text-align: center;
-            margin-top: 20px;
-            color: #7f8c8d;
-            font-size: 14px;
-        }
-
-        @media (max-width: 768px) {
-            .container {
-                border-radius: 10px;
-            }
-            
-            h1 {
-                font-size: 24px;
-            }
-            
-            .drop-area {
-                padding: 20px 10px;
-            }
-            
-            .stats-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .format-list {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            
-            .file-item {
-                flex-wrap: wrap;
-            }
-            
-            .file-name {
-                width: 100%;
-                margin-bottom: 5px;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
     <div class="container">
         <header>
             <h1>Калькулятор стоимости печати PDF</h1>
             <p class="description">Загрузите PDF-файлы для расчета стоимости печати</p>
-            <button class="settings-btn" id="settingsBtn" title="Настройки">
-                <svg viewBox="0 0 24 24">
-                    <path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.70-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.70 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/>
-                </svg>
-            </button>
+            <div class="header-controls">
+                <button class="mode-btn" id="modeBtn" title="Переключить режим: Цветная / Черно-белая печать">
+                    Режим: <span id="modeText">Ч/Б</span>
+                </button>
+                <button class="settings-btn" id="settingsBtn" title="Настройки">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.70-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.70 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/>
+                    </svg>
+                </button>
+            </div>
         </header>
-        
         <section class="upload-section">
             <div class="drop-area" id="dropArea">
                 <p>Перетащите PDF-файлы сюда или</p>
                 <button class="btn" id="browseBtn">Выберите файлы</button>
-                <input type="file" id="fileInput" accept=".pdf" multiple class="hidden">
+                <input type="file" id="fileInput" accept=".pdf" multiple class="hidden" />
             </div>
-            
-            <div class="file-list hidden" id="fileList">
-                <!-- Список файлов будет здесь -->
-            </div>
-            
+            <div class="file-list hidden" id="fileList"></div>
             <div class="files-total hidden" id="filesTotal">
                 Общая стоимость: <span id="totalCostValue">0</span> руб.
             </div>
-            
             <button class="btn btn-danger clear-all-btn hidden" id="clearAllBtn">Очистить все</button>
-            
             <div class="current-settings" id="currentSettings">
                 Текущая цена: А4/А3 - по количеству, другие форматы - 3 руб./100 см²
             </div>
         </section>
-        
         <div class="loading" id="loading">
             <div class="spinner"></div>
             <p>Обработка файлов...</p>
         </div>
-        
         <div class="error-section hidden" id="errorSection">
             <div class="error-title" id="errorTitle">Произошла ошибка</div>
             <div id="errorDetails"></div>
         </div>
-        
         <section class="stats-section hidden" id="statsSection">
             <h3>Статистика</h3>
-            
             <div class="stats-grid">
                 <div class="stat-item">
                     <div class="stat-value" id="totalFilesCount">0</div>
@@ -542,16 +65,13 @@
                     <div class="stat-label">страниц А3</div>
                 </div>
             </div>
-            
             <div class="format-stats">
                 <h4>Форматы страниц</h4>
-                <div class="format-list" id="formatList">
-                    <!-- Список форматов будет здесь -->
-                </div>
+                <div class="format-list" id="formatList"></div>
             </div>
         </section>
     </div>
-    
+
     <div class="modal-overlay" id="settingsModal">
         <div class="modal">
             <div class="modal-header">
@@ -561,46 +81,44 @@
             <div class="modal-body">
                 <div class="form-group">
                     <label for="pricePerSqM">Цена за 1 м² для других форматов (руб.)</label>
-                    <input type="number" id="pricePerSqM" min="1" step="0.01" value="300">
+                    <input type="number" id="pricePerSqM" min="1" step="0.01" value="300" />
                 </div>
-                
                 <div class="price-category">
                     <h4>Цены для А4</h4>
                     <div class="form-group">
-                        <label for="a4_1_10">1-10 страниц (руб. за страницу)</label>
-                        <input type="number" id="a4_1_10" min="0" step="0.01" value="10">
+                        <label for="a4_1_10">1–10 страниц (руб. за страницу)</label>
+                        <input type="number" id="a4_1_10" min="0" step="0.01" value="10" />
                     </div>
                     <div class="form-group">
-                        <label for="a4_11_50">11-50 страниц (руб. за страницу)</label>
-                        <input type="number" id="a4_11_50" min="0" step="0.01" value="8">
+                        <label for="a4_11_50">11–50 страниц (руб. за страницу)</label>
+                        <input type="number" id="a4_11_50" min="0" step="0.01" value="8" />
                     </div>
                     <div class="form-group">
-                        <label for="a4_51_100">51-100 страниц (руб. за страницу)</label>
-                        <input type="number" id="a4_51_100" min="0" step="0.01" value="6">
+                        <label for="a4_51_100">51–100 страниц (руб. за страницу)</label>
+                        <input type="number" id="a4_51_100" min="0" step="0.01" value="6" />
                     </div>
                     <div class="form-group">
-                        <label for="a4_101_500">101-500 страниц (руб. за страницу)</label>
-                        <input type="number" id="a4_101_500" min="0" step="0.01" value="5">
+                        <label for="a4_101_500">101–500 страниц (руб. за страницу)</label>
+                        <input type="number" id="a4_101_500" min="0" step="0.01" value="5" />
                     </div>
                 </div>
-                
                 <div class="price-category">
                     <h4>Цены для А3</h4>
                     <div class="form-group">
-                        <label for="a3_1_10">1-10 страниц (руб. за страницу)</label>
-                        <input type="number" id="a3_1_10" min="0" step="0.01" value="20">
+                        <label for="a3_1_10">1–10 страниц (руб. за страницу)</label>
+                        <input type="number" id="a3_1_10" min="0" step="0.01" value="20" />
                     </div>
                     <div class="form-group">
-                        <label for="a3_11_50">11-50 страниц (руб. за страницу)</label>
-                        <input type="number" id="a3_11_50" min="0" step="0.01" value="16">
+                        <label for="a3_11_50">11–50 страниц (руб. за страницу)</label>
+                        <input type="number" id="a3_11_50" min="0" step="0.01" value="16" />
                     </div>
                     <div class="form-group">
-                        <label for="a3_51_100">51-100 страниц (руб. за страницу)</label>
-                        <input type="number" id="a3_51_100" min="0" step="0.01" value="12">
+                        <label for="a3_51_100">51–100 страниц (руб. за страницу)</label>
+                        <input type="number" id="a3_51_100" min="0" step="0.01" value="12" />
                     </div>
                     <div class="form-group">
-                        <label for="a3_101_500">101-500 страниц (руб. за страницу)</label>
-                        <input type="number" id="a3_101_500" min="0" step="0.01" value="10">
+                        <label for="a3_101_500">101–500 страниц (руб. за страницу)</label>
+                        <input type="number" id="a3_101_500" min="0" step="0.01" value="10" />
                     </div>
                 </div>
             </div>
@@ -610,532 +128,12 @@
             </div>
         </div>
     </div>
-    
+
     <footer>
         <p>Используется библиотека PDF.js для анализа PDF-файлов</p>
     </footer>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
-    <script>
-        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
-
-        // Переменные для хранения данных
-        let formats = [];
-        const formatOrder = [
-            "A0", "A0x2", "A0x3", "A0x4", "A0x5", "A0x6",
-            "A1", "A1x3", "A1x4", "A1x5", "A1x6",
-            "A2", "A2x3", "A2x4", "A2x5", "A2x6",
-            "A3", "A3x3", "A3x4", "A3x5", "A3x6", "A3x7",
-            "A4", "A4x3", "A4x4", "A4x5", "A4x6", "A4x7", "A4x8", "A4x9"
-        ];
-
-        // Настройки по умолчанию
-        let settings = {
-            pricePerSqM: 300,
-            a4Prices: { '1_10': 10, '11_50': 8, '51_100': 6, '101_500': 5 },
-            a3Prices: { '1_10': 20, '11_50': 16, '51_100': 12, '101_500': 10 }
-        };
-
-        let filesData = new Map();
-        let formatStatistics = {};
-
-        document.addEventListener('DOMContentLoaded', function() {
-            // Сначала загружаем форматы из XML, затем настройки из JSON, затем инициализируем приложение
-            loadFormatsFromXML().then(() => {
-                return loadSettingsFromJSON();
-            }).then(() => {
-                initializeApp();
-            }).catch(error => {
-                console.error('Ошибка загрузки:', error);
-                // Используем настройки по умолчанию если файлы не загрузились
-                initializeApp();
-            });
-        });
-
-        // Функция загрузки форматов из XML файла
-        async function loadFormatsFromXML() {
-            try {
-                const response = await fetch('./formats.xml');
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                const xmlText = await response.text();
-                const parser = new DOMParser();
-                const xmlDoc = parser.parseFromString(xmlText, "text/xml");
-                
-                // Парсим форматы из XML
-                const formatElements = xmlDoc.getElementsByTagName('format');
-                formats = [];
-                
-                for (let i = 0; i < formatElements.length; i++) {
-                    const format = formatElements[i];
-                    formats.push({
-                        name: format.getAttribute('name'),
-                        minWidth: parseFloat(format.getAttribute('minWidth')),
-                        maxWidth: parseFloat(format.getAttribute('maxWidth')),
-                        minHeight: parseFloat(format.getAttribute('minHeight')),
-                        maxHeight: parseFloat(format.getAttribute('maxHeight'))
-                    });
-                }
-                
-                console.log('Форматы загружены из XML:', formats);
-            } catch (error) {
-                console.error('Не удалось загрузить formats.xml:', error);
-                // Используем базовые форматы по умолчанию
-                formats = [
-                    { name: "A4", minWidth: 566.929, maxWidth: 623.622, minHeight: 813.543, maxHeight: 870.236 },
-                    { name: "A3", minWidth: 813.543, maxWidth: 870.236, minHeight: 1162.205, maxHeight: 1218.898 }
-                ];
-            }
-        }
-
-        // Функция загрузки настроек из JSON файла
-        async function loadSettingsFromJSON() {
-            try {
-                const response = await fetch('./settings.json');
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                const defaultSettings = await response.json();
-                
-                // Объединяем настройки по умолчанию с сохраненными пользовательскими настройками
-                const savedSettings = localStorage.getItem('pdfCalculatorSettings');
-                if (savedSettings) {
-                    try {
-                        const userSettings = JSON.parse(savedSettings);
-                        settings = {
-                            ...defaultSettings,
-                            ...userSettings,
-                            a4Prices: { ...defaultSettings.a4Prices, ...userSettings.a4Prices },
-                            a3Prices: { ...defaultSettings.a3Prices, ...userSettings.a3Prices }
-                        };
-                    } catch (e) {
-                        console.error('Ошибка парсинга сохраненных настроек:', e);
-                        settings = defaultSettings;
-                    }
-                } else {
-                    settings = defaultSettings;
-                }
-                
-                console.log('Настройки загружены:', settings);
-            } catch (error) {
-                console.error('Не удалось загрузить settings.json:', error);
-                // Используем настройки из localStorage или по умолчанию
-                const savedSettings = localStorage.getItem('pdfCalculatorSettings');
-                if (savedSettings) {
-                    try {
-                        settings = JSON.parse(savedSettings);
-                    } catch (e) {
-                        console.error('Ошибка парсинга сохраненных настроек:', e);
-                    }
-                }
-            }
-        }
-
-        function initializeApp() {
-            const dropArea = document.getElementById('dropArea');
-            const browseBtn = document.getElementById('browseBtn');
-            const fileInput = document.getElementById('fileInput');
-            const fileList = document.getElementById('fileList');
-            const clearAllBtn = document.getElementById('clearAllBtn');
-            const statsSection = document.getElementById('statsSection');
-            const loading = document.getElementById('loading');
-            const settingsBtn = document.getElementById('settingsBtn');
-            const settingsModal = document.getElementById('settingsModal');
-            const closeModal = document.getElementById('closeModal');
-            const cancelBtn = document.getElementById('cancelBtn');
-            const saveSettingsBtn = document.getElementById('saveSettings');
-            const currentSettingsEl = document.getElementById('currentSettings');
-            const errorSection = document.getElementById('errorSection');
-            const filesTotal = document.getElementById('filesTotal');
-            const totalCostValue = document.getElementById('totalCostValue');
-            const formatList = document.getElementById('formatList');
-            
-            // Элементы статистики
-            const totalFilesCount = document.getElementById('totalFilesCount');
-            const totalPagesCount = document.getElementById('totalPagesCount');
-            const totalA4Pages = document.getElementById('totalA4Pages');
-            const totalA3Pages = document.getElementById('totalA3Pages');
-            
-            updateCurrentSettingsDisplay();
-            
-            function initEventHandlers() {
-                ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-                    dropArea.addEventListener(eventName, preventDefaults, false);
-                });
-                
-                ['dragenter', 'dragover'].forEach(eventName => {
-                    dropArea.addEventListener(eventName, highlight, false);
-                });
-                
-                ['dragleave', 'drop'].forEach(eventName => {
-                    dropArea.addEventListener(eventName, unhighlight, false);
-                });
-                
-                dropArea.addEventListener('drop', handleDrop, false);
-                
-                browseBtn.addEventListener('click', () => fileInput.click());
-                fileInput.addEventListener('change', function() {
-                    handleFiles(this.files);
-                });
-                
-                clearAllBtn.addEventListener('click', clearAllFiles);
-                settingsBtn.addEventListener('click', openSettingsModal);
-                closeModal.addEventListener('click', closeSettingsModal);
-                cancelBtn.addEventListener('click', closeSettingsModal);
-                saveSettingsBtn.addEventListener('click', saveSettings);
-            }
-            
-            function preventDefaults(e) {
-                e.preventDefault();
-                e.stopPropagation();
-            }
-            
-            function highlight() {
-                dropArea.style.background = '#e8f4fc';
-                dropArea.style.borderColor = '#2980b9';
-            }
-            
-            function unhighlight() {
-                dropArea.style.background = '#f8f9fa';
-                dropArea.style.borderColor = '#3498db';
-            }
-            
-            function handleDrop(e) {
-                const dt = e.dataTransfer;
-                handleFiles(dt.files);
-            }
-            
-            function openSettingsModal() {
-                // Заполняем поля текущими настройками
-                document.getElementById('pricePerSqM').value = settings.pricePerSqM;
-                document.getElementById('a4_1_10').value = settings.a4Prices['1_10'];
-                document.getElementById('a4_11_50').value = settings.a4Prices['11_50'];
-                document.getElementById('a4_51_100').value = settings.a4Prices['51_100'];
-                document.getElementById('a4_101_500').value = settings.a4Prices['101_500'];
-                document.getElementById('a3_1_10').value = settings.a3Prices['1_10'];
-                document.getElementById('a3_11_50').value = settings.a3Prices['11_50'];
-                document.getElementById('a3_51_100').value = settings.a3Prices['51_100'];
-                document.getElementById('a3_101_500').value = settings.a3Prices['101_500'];
-                
-                settingsModal.classList.add('active');
-            }
-            
-            function closeSettingsModal() {
-                settingsModal.classList.remove('active');
-            }
-            
-            function saveSettings() {
-                settings.pricePerSqM = parseFloat(document.getElementById('pricePerSqM').value) || 300;
-                
-                settings.a4Prices = {
-                    '1_10': parseFloat(document.getElementById('a4_1_10').value) || 10,
-                    '11_50': parseFloat(document.getElementById('a4_11_50').value) || 8,
-                    '51_100': parseFloat(document.getElementById('a4_51_100').value) || 6,
-                    '101_500': parseFloat(document.getElementById('a4_101_500').value) || 5
-                };
-                
-                settings.a3Prices = {
-                    '1_10': parseFloat(document.getElementById('a3_1_10').value) || 20,
-                    '11_50': parseFloat(document.getElementById('a3_11_50').value) || 16,
-                    '51_100': parseFloat(document.getElementById('a3_51_100').value) || 12,
-                    '101_500': parseFloat(document.getElementById('a3_101_500').value) || 10
-                };
-                
-                localStorage.setItem('pdfCalculatorSettings', JSON.stringify(settings));
-                updateCurrentSettingsDisplay();
-                recalculateAllFiles();
-                closeSettingsModal();
-            }
-            
-            function updateCurrentSettingsDisplay() {
-                currentSettingsEl.textContent = `Текущая цена: А4/А3 - по количеству, другие форматы - ${settings.pricePerSqM / 100} руб./100 см²`;
-            }
-            
-            function handleFiles(files) {
-                if (files.length > 0) {
-                    loading.style.display = 'block';
-                    errorSection.classList.add('hidden');
-                    
-                    Array.from(files).forEach(file => {
-                        if (file.type === 'application/pdf') {
-                            addFileToList(file);
-                            calculatePdfCost(file);
-                        }
-                    });
-                }
-            }
-            
-            function addFileToList(file) {
-                const fileId = Date.now() + Math.random().toString(36).substr(2, 9);
-                
-                const fileItem = document.createElement('div');
-                fileItem.className = 'file-item';
-                fileItem.dataset.fileId = fileId;
-                fileItem.innerHTML = `
-                    <div class="file-name" title="${file.name}">${file.name}</div>
-                    <div class="file-cost">0 руб.</div>
-                    <button class="remove-file" data-file-id="${fileId}">&times;</button>
-                `;
-                
-                fileList.appendChild(fileItem);
-                fileList.classList.remove('hidden');
-                filesTotal.classList.remove('hidden');
-                clearAllBtn.classList.remove('hidden');
-                
-                fileItem.querySelector('.remove-file').addEventListener('click', function() {
-                    const id = this.dataset.fileId;
-                    filesData.delete(id);
-                    fileItem.remove();
-                    updateTotalCost();
-                    updateStatistics();
-                    
-                    if (filesData.size === 0) {
-                        fileList.classList.add('hidden');
-                        filesTotal.classList.add('hidden');
-                        clearAllBtn.classList.add('hidden');
-                        statsSection.classList.add('hidden');
-                    }
-                });
-                
-                filesData.set(fileId, {
-                    file: file,
-                    cost: 0,
-                    pages: 0,
-                    a4Pages: 0,
-                    a3Pages: 0,
-                    otherPages: 0,
-                    formatCounts: {}
-                });
-            }
-            
-            function calculatePdfCost(file) {
-                const fileId = Array.from(filesData.entries()).find(([id, data]) => data.file === file)[0];
-                
-                const fileReader = new FileReader();
-                fileReader.onload = function() {
-                    const typedArray = new Uint8Array(this.result);
-                    
-                    pdfjsLib.getDocument(typedArray).promise.then(pdf => {
-                        const numPages = pdf.numPages;
-                        let totalCost = 0;
-                        let a4Count = 0;
-                        let a3Count = 0;
-                        let otherCount = 0;
-                        const formatCounts = {};
-                        
-                        const pagePromises = [];
-                        
-                        for (let i = 1; i <= numPages; i++) {
-                            pagePromises.push(
-                                pdf.getPage(i).then(page => {
-                                    const viewport = page.getViewport({ scale: 1.0 });
-                                    const width = viewport.width;
-                                    const height = viewport.height;
-                                    
-                                    const format = determineFormat(width, height);
-                                    
-                                    // Обновляем статистику форматов
-                                    if (!formatCounts[format]) {
-                                        formatCounts[format] = 0;
-                                    }
-                                    formatCounts[format]++;
-                                    
-                                    const pageCost = calculatePageCost(format, width, height);
-                                    totalCost += pageCost;
-                                    
-                                    if (format === 'A4') a4Count++;
-                                    else if (format === 'A3') a3Count++;
-                                    else otherCount++;
-                                    
-                                    return pageCost;
-                                }).catch(error => {
-                                    console.error(`Ошибка обработки страницы ${i}:`, error);
-                                    return 0;
-                                })
-                            );
-                        }
-                        
-                        Promise.all(pagePromises).then(() => {
-                            const fileData = filesData.get(fileId);
-                            fileData.cost = totalCost;
-                            fileData.pages = numPages;
-                            fileData.a4Pages = a4Count;
-                            fileData.a3Pages = a3Count;
-                            fileData.otherPages = otherCount;
-                            fileData.formatCounts = formatCounts;
-                            
-                            updateFileDisplay(fileId, totalCost);
-                            updateTotalCost();
-                            updateStatistics();
-                            
-                            loading.style.display = 'none';
-                        });
-                    }).catch(error => {
-                        console.error('Ошибка загрузки PDF:', error);
-                        showError('Ошибка загрузки файла', `Не удалось загрузить файл ${file.name}: ${error.message}`);
-                        loading.style.display = 'none';
-                    });
-                };
-                
-                fileReader.readAsArrayBuffer(file);
-            }
-            
-            function determineFormat(width, height) {
-                // Проверяем каждый формат из списка
-                for (const format of formats) {
-                    if (width >= format.minWidth && width <= format.maxWidth && 
-                        height >= format.minHeight && height <= format.maxHeight) {
-                        return format.name;
-                    }
-                }
-                
-                // Если формат не найден, проверяем повернутые варианты
-                for (const format of formats) {
-                    if (height >= format.minWidth && height <= format.maxWidth && 
-                        width >= format.minHeight && width <= format.maxHeight) {
-                        return format.name;
-                    }
-                }
-                
-                // Если формат не определен, возвращаем "Другой"
-                return "Другой";
-            }
-            
-            function calculatePageCost(format, width, height) {
-                if (format === 'A4') {
-                    const a4Pages = filesData.get(Array.from(filesData.keys())[0]).a4Pages;
-                    return getA4Price(a4Pages);
-                } else if (format === 'A3') {
-                    const a3Pages = filesData.get(Array.from(filesData.keys())[0]).a3Pages;
-                    return getA3Price(a3Pages);
-                } else {
-                    // Для других форматов считаем стоимость по площади
-                    const area = (width / 72) * (height / 72) * 6.4516; // площадь в см²
-                    return (area * settings.pricePerSqM) / 10000;
-                }
-            }
-            
-            function getA4Price(pageCount) {
-                if (pageCount <= 10) return settings.a4Prices['1_10'];
-                if (pageCount <= 50) return settings.a4Prices['11_50'];
-                if (pageCount <= 100) return settings.a4Prices['51_100'];
-                return settings.a4Prices['101_500'];
-            }
-            
-            function getA3Price(pageCount) {
-                if (pageCount <= 10) return settings.a3Prices['1_10'];
-                if (pageCount <= 50) return settings.a3Prices['11_50'];
-                if (pageCount <= 100) return settings.a3Prices['51_100'];
-                return settings.a3Prices['101_500'];
-            }
-            
-            function updateFileDisplay(fileId, cost) {
-                const fileItem = document.querySelector(`.file-item[data-file-id="${fileId}"]`);
-                if (fileItem) {
-                    const costElement = fileItem.querySelector('.file-cost');
-                    costElement.textContent = `${cost.toFixed(2)} руб.`;
-                }
-            }
-            
-            function updateTotalCost() {
-                let total = 0;
-                filesData.forEach(data => {
-                    total += data.cost;
-                });
-                
-                totalCostValue.textContent = total.toFixed(2);
-            }
-            
-            function updateStatistics() {
-                let totalFiles = filesData.size;
-                let totalPages = 0;
-                let totalA4 = 0;
-                let totalA3 = 0;
-                
-                // Сбрасываем статистику форматов
-                formatStatistics = {};
-                
-                filesData.forEach(data => {
-                    totalPages += data.pages;
-                    totalA4 += data.a4Pages;
-                    totalA3 += data.a3Pages;
-                    
-                    // Собираем статистику по форматам
-                    for (const [format, count] of Object.entries(data.formatCounts)) {
-                        if (!formatStatistics[format]) {
-                            formatStatistics[format] = 0;
-                        }
-                        formatStatistics[format] += count;
-                    }
-                });
-                
-                totalFilesCount.textContent = totalFiles;
-                totalPagesCount.textContent = totalPages;
-                totalA4Pages.textContent = totalA4;
-                totalA3Pages.textContent = totalA3;
-                
-                // Обновляем список форматов
-                updateFormatList();
-                
-                statsSection.classList.remove('hidden');
-            }
-            
-            function updateFormatList() {
-                formatList.innerHTML = '';
-                
-                // Сортируем форматы в заданном порядке
-                const sortedFormats = Object.entries(formatStatistics)
-                    .sort(([a], [b]) => {
-                        const indexA = formatOrder.indexOf(a);
-                        const indexB = formatOrder.indexOf(b);
-                        
-                        // Форматы, не входящие в порядок, идут в конец
-                        if (indexA === -1) return 1;
-                        if (indexB === -1) return -1;
-                        
-                        return indexA - indexB;
-                    });
-                
-                sortedFormats.forEach(([format, count]) => {
-                    const formatItem = document.createElement('div');
-                    formatItem.className = 'format-item';
-                    formatItem.innerHTML = `
-                        <div class="format-name">${format}</div>
-                        <div class="format-count">${count} стр.</div>
-                    `;
-                    formatList.appendChild(formatItem);
-                });
-            }
-            
-            function clearAllFiles() {
-                filesData.clear();
-                fileList.innerHTML = '';
-                fileList.classList.add('hidden');
-                filesTotal.classList.add('hidden');
-                clearAllBtn.classList.add('hidden');
-                statsSection.classList.add('hidden');
-                updateTotalCost();
-            }
-            
-            function recalculateAllFiles() {
-                if (filesData.size > 0) {
-                    loading.style.display = 'block';
-                    
-                    filesData.forEach((data, fileId) => {
-                        calculatePdfCost(data.file);
-                    });
-                }
-            }
-            
-            function showError(title, details) {
-                errorSection.classList.remove('hidden');
-                document.getElementById('errorTitle').textContent = title;
-                document.getElementById('errorDetails').textContent = details;
-            }
-            
-            initEventHandlers();
-        }
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>

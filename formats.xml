@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <formats>
 	<format name="A4" minWidth="566.929" maxWidth="623.622" minHeight="813.543" maxHeight="870.236" media="sheet" use="true" description=""/>
 	<format name="A3" minWidth="813.543" maxWidth="870.236" minHeight="1162.205" maxHeight="1218.898" media="sheet" use="true" description=""/>
