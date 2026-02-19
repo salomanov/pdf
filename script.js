@@ -1,4 +1,4 @@
-pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://github.com/salomanov/pdf/raw/refs/heads/main/pdf.worker.min.js';
+pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://github.com/salomanov/pdf/raw/refs/heads/main/pdf.worker.js';
 
 let formats = [];
 const formatOrder = [
@@ -450,3 +450,4 @@ function initializeApp() {
     initEventHandlers();
 
 }
+
