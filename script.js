@@ -1,4 +1,4 @@
-pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://github.com/salomanov/pdf/raw/refs/heads/main/pdf.worker.js';
+pdfjsLib.GlobalWorkerOptions.workerSrc = 'pdf.worker.js';
 
 let formats = [];
 const formatOrder = [
